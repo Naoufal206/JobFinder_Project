@@ -1,6 +1,7 @@
+
 import { useCallback, useEffect, useMemo, useState } from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import api from "./api";
 import "./Applications.css";
 
 const filterOptions = [
@@ -57,6 +58,11 @@ function formatDateTime(value) {
   }
 
   const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "Not scheduled";
+  }
+
   return `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
@@ -68,24 +74,64 @@ function Applications() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+
   const navigate = useNavigate();
 
   const fetchApplications = useCallback(async () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      navigate("/auth");
+      navigate("/auth?mode=login&redirect=/applications");
       return;
     }
 
     try {
-      const res = await axios.get("/api/applications", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setApplications(res.data);
+      setLoading(true);
       setError("");
+
+      const res = await api.get("/api/applications", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log("Applications API response:", res.data);
+
+      /*
+       * Laravel may return:
+       *
+       * 1. [...]
+       * 2. { data: [...] }
+       * 3. { applications: [...] }
+       *
+       * Make sure applications is ALWAYS an array.
+       */
+      const applicationsData = Array.isArray(res.data)
+        ? res.data
+        : Array.isArray(res.data?.data)
+        ? res.data.data
+        : Array.isArray(res.data?.applications)
+        ? res.data.applications
+        : [];
+
+      setApplications(applicationsData);
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to load applications.");
+      console.error("Applications API error:", err);
+
+      setApplications([]);
+
+      if (err.response?.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+
+        navigate("/auth?mode=login&redirect=/applications");
+        return;
+      }
+
+      setError(
+        err.response?.data?.message ||
+          "Failed to load applications."
+      );
     } finally {
       setLoading(false);
     }
@@ -96,13 +142,24 @@ function Applications() {
   }, [fetchApplications]);
 
   const stats = useMemo(() => {
-    const normalized = applications.map((application) => getNormalizedStatus(application.status));
+    const normalized = applications.map((application) =>
+      getNormalizedStatus(application.status)
+    );
 
     return {
       total: applications.length,
-      underReview: normalized.filter((status) => status === "under review").length,
-      interviews: normalized.filter((status) => status === "interview scheduled").length,
-      accepted: normalized.filter((status) => status === "accepted").length,
+
+      underReview: normalized.filter(
+        (status) => status === "under review"
+      ).length,
+
+      interviews: normalized.filter(
+        (status) => status === "interview scheduled"
+      ).length,
+
+      accepted: normalized.filter(
+        (status) => status === "accepted"
+      ).length,
     };
   }, [applications]);
 
@@ -111,45 +168,100 @@ function Applications() {
       return applications;
     }
 
-    return applications.filter((application) => getNormalizedStatus(application.status) === statusFilter);
+    return applications.filter(
+      (application) =>
+        getNormalizedStatus(application.status) ===
+        statusFilter
+    );
   }, [applications, statusFilter]);
 
-  const skeletonItems = Array.from({ length: 4 }, (_, index) => index);
+  const skeletonItems = Array.from(
+    { length: 4 },
+    (_, index) => index
+  );
 
   return (
     <div className="applications-page">
       <section className="applications-hero">
-        <p className="applications-kicker">Application tracker</p>
-        <h1>Follow every application from review to decision</h1>
-        <p className="applications-subtitle">
-          Check current statuses, interview schedules, and hiring updates without digging through email threads.
-        </p>
+        <div>
+          <p className="ui-section-kicker">
+            Application tracker
+          </p>
+
+          <h1>
+            Follow every application from review to decision
+          </h1>
+
+          <p>
+            Check current statuses, interview schedules, and
+            hiring updates without digging through email threads.
+          </p>
+        </div>
 
         <div className="ui-stat-grid applications-stat-grid">
           <div className="ui-stat-card">
-            <span className="ui-stat-label">Total applications</span>
-            <span className="ui-stat-value">{stats.total}</span>
-            <span className="ui-stat-note">Everything you have submitted so far</span>
+            <span className="ui-stat-label">
+              Total applications
+            </span>
+
+            <span className="ui-stat-value">
+              {stats.total}
+            </span>
+
+            <span className="ui-stat-note">
+              Everything you have submitted so far
+            </span>
           </div>
+
           <div className="ui-stat-card">
-            <span className="ui-stat-label">Under review</span>
-            <span className="ui-stat-value">{stats.underReview}</span>
-            <span className="ui-stat-note">Applications waiting on recruiter feedback</span>
+            <span className="ui-stat-label">
+              Under review
+            </span>
+
+            <span className="ui-stat-value">
+              {stats.underReview}
+            </span>
+
+            <span className="ui-stat-note">
+              Applications waiting on recruiter feedback
+            </span>
           </div>
+
           <div className="ui-stat-card">
-            <span className="ui-stat-label">Interviews</span>
-            <span className="ui-stat-value">{stats.interviews}</span>
-            <span className="ui-stat-note">Conversations already scheduled</span>
+            <span className="ui-stat-label">
+              Interviews
+            </span>
+
+            <span className="ui-stat-value">
+              {stats.interviews}
+            </span>
+
+            <span className="ui-stat-note">
+              Conversations already scheduled
+            </span>
           </div>
+
           <div className="ui-stat-card">
-            <span className="ui-stat-label">Accepted</span>
-            <span className="ui-stat-value">{stats.accepted}</span>
-            <span className="ui-stat-note">Positive outcomes in your pipeline</span>
+            <span className="ui-stat-label">
+              Accepted
+            </span>
+
+            <span className="ui-stat-value">
+              {stats.accepted}
+            </span>
+
+            <span className="ui-stat-note">
+              Positive outcomes in your pipeline
+            </span>
           </div>
         </div>
       </section>
 
-      {error && <div className="ui-alert ui-alert-error applications-alert">{error}</div>}
+      {error && (
+        <div className="ui-alert ui-alert-error applications-alert">
+          {error}
+        </div>
+      )}
 
       {!error && (
         <section className="applications-toolbar">
@@ -158,14 +270,24 @@ function Applications() {
               <button
                 key={filter.value}
                 type="button"
-                className={`ui-filter-chip${statusFilter === filter.value ? " is-active" : ""}`}
-                onClick={() => setStatusFilter(filter.value)}
+                className={`ui-filter-chip${
+                  statusFilter === filter.value
+                    ? " is-active"
+                    : ""
+                }`}
+                onClick={() =>
+                  setStatusFilter(filter.value)
+                }
               >
                 {filter.label}
               </button>
             ))}
           </div>
-          <Link to="/jobs" className="applications-toolbar-link">
+
+          <Link
+            to="/jobs"
+            className="applications-toolbar-link"
+          >
             Browse jobs
           </Link>
         </section>
@@ -174,17 +296,23 @@ function Applications() {
       {loading ? (
         <section className="applications-list">
           {skeletonItems.map((item) => (
-            <article key={item} className="application-card application-card-skeleton">
+            <article
+              key={item}
+              className="application-card application-card-skeleton"
+            >
               <div className="ui-skeleton application-skeleton-title" />
+
               <div className="application-skeleton-row">
                 <span className="ui-skeleton" />
                 <span className="ui-skeleton" />
               </div>
+
               <div className="application-skeleton-grid">
                 <span className="ui-skeleton" />
                 <span className="ui-skeleton" />
                 <span className="ui-skeleton" />
               </div>
+
               <div className="ui-skeleton application-skeleton-footer" />
             </article>
           ))}
@@ -192,57 +320,120 @@ function Applications() {
       ) : !error && applications.length === 0 ? (
         <section className="ui-empty-state applications-empty">
           <h2>No applications yet</h2>
-          <p>You have not applied to any jobs yet. Start exploring current openings and submit your first application.</p>
-          <Link to="/jobs" className="applications-link">
+
+          <p>
+            You have not applied to any jobs yet. Start
+            exploring current openings and submit your first
+            application.
+          </p>
+
+          <Link
+            to="/jobs"
+            className="applications-link"
+          >
             Browse jobs
           </Link>
         </section>
       ) : !error && filteredApplications.length === 0 ? (
         <section className="ui-empty-state applications-empty">
           <h2>No applications in this status</h2>
-          <p>Switch filters to review the rest of your hiring pipeline.</p>
+
+          <p>
+            Switch filters to review the rest of your hiring
+            pipeline.
+          </p>
         </section>
       ) : (
         <section className="applications-list">
           {filteredApplications.map((application) => (
-            <article key={application.id} className="application-card">
+            <article
+              key={application.id}
+              className="application-card"
+            >
               <div className="application-card-header">
                 <div>
-                  <p className="application-card-label">Submitted application</p>
-                  <h2>{application.job?.title || "Job unavailable"}</h2>
-                  <p>{application.job?.company || "Company not specified"}</p>
+                  <p className="application-card-label">
+                    Submitted application
+                  </p>
+
+                  <h2>
+                    {application.job?.title ||
+                      "Job unavailable"}
+                  </h2>
+
+                  <p>
+                    {application.job?.company ||
+                      "Company not specified"}
+                  </p>
                 </div>
-                <span className={getStatusClassName(application.status)}>{application.status}</span>
+
+                <span
+                  className={getStatusClassName(
+                    application.status
+                  )}
+                >
+                  {application.status || "Under Review"}
+                </span>
               </div>
 
               <div className="application-card-details">
                 <div className="application-detail">
                   <span>Location</span>
-                  <p>{application.job?.location || "Location not specified"}</p>
+
+                  <p>
+                    {application.job?.location ||
+                      "Location not specified"}
+                  </p>
                 </div>
+
                 <div className="application-detail">
                   <span>Salary</span>
-                  <p>{application.job?.salary || "Salary not specified"}</p>
+
+                  <p>
+                    {application.job?.salary ||
+                      "Salary not specified"}
+                  </p>
                 </div>
+
                 <div className="application-detail">
                   <span>Applied on</span>
-                  <p>{new Date(application.created_at).toLocaleDateString()}</p>
+
+                  <p>
+                    {application.created_at
+                      ? new Date(
+                          application.created_at
+                        ).toLocaleDateString()
+                      : "Date not available"}
+                  </p>
                 </div>
               </div>
 
               <div className="application-progress-panel">
                 <div className="application-progress-item">
                   <span>Interview</span>
-                  <p>{formatDateTime(application.interview_datetime)}</p>
+
+                  <p>
+                    {formatDateTime(
+                      application.interview_datetime
+                    )}
+                  </p>
                 </div>
+
                 <div className="application-progress-item">
                   <span>Start date</span>
-                  <p>{formatDateTime(application.start_work_datetime)}</p>
+
+                  <p>
+                    {formatDateTime(
+                      application.start_work_datetime
+                    )}
+                  </p>
                 </div>
               </div>
 
               <div className="application-card-footer">
-                <p>{getStatusNote(application)}</p>
+                <p>
+                  {getStatusNote(application)}
+                </p>
               </div>
             </article>
           ))}
@@ -253,3 +444,4 @@ function Applications() {
 }
 
 export default Applications;
+

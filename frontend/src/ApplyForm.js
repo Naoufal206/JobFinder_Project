@@ -28,6 +28,7 @@ function ApplyForm() {
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [alreadyApplied, setAlreadyApplied] = useState(false);
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user") || "null");
@@ -52,6 +53,29 @@ function ApplyForm() {
     fetchJob();
   }, [jobId]);
 
+  useEffect(() => {
+    const fetchApplicationStatus = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setAlreadyApplied(false);
+        return;
+      }
+
+      try {
+        const res = await axios.get("/api/applications", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        const hasApplied = res.data.some((application) => String(application.job_id) === String(jobId));
+        setAlreadyApplied(hasApplied);
+      } catch (err) {
+        setAlreadyApplied(false);
+      }
+    };
+
+    fetchApplicationStatus();
+  }, [jobId]);
+
   const jobHighlights = useMemo(() => {
     if (!job) {
       return ["Estimated time: 2 minutes", "Resume upload supported", "Status updates sent by email"];
@@ -68,6 +92,13 @@ function ApplyForm() {
     e.preventDefault();
     setMessage("");
     setMessageType("");
+
+    if (alreadyApplied) {
+      setMessage("You have already applied for this job.");
+      setMessageType("error");
+      return;
+    }
+
     setSubmitting(true);
 
     const formData = new FormData();
@@ -222,8 +253,8 @@ function ApplyForm() {
                 <span>Double-check your email and attach the most recent version of your resume.</span>
               </div>
 
-              <button type="submit" className="apply-submit" disabled={submitting}>
-                {submitting ? "Submitting..." : "Submit application"}
+              <button type="submit" className="apply-submit" disabled={submitting || alreadyApplied}>
+                {submitting ? "Submitting..." : alreadyApplied ? "Already applied" : "Submit application"}
               </button>
             </div>
           </form>
