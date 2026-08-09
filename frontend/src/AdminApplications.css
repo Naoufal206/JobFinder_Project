@@ -1,0 +1,307 @@
+.admin-applications-page {
+  max-width: 1320px;
+}
+
+.admin-applications-hero {
+  text-align: left;
+}
+
+.admin-applications-toolbar {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.admin-toolbar-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 10px 16px 10px 12px;
+  border: 1px solid rgba(5, 150, 105, 0.16);
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(240, 253, 244, 0.92) 100%);
+  box-shadow: 0 16px 28px rgba(5, 150, 105, 0.08);
+  color: #064e3b;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.admin-toolbar-button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(5, 150, 105, 0.28);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(220, 252, 231, 0.95) 100%);
+  box-shadow: 0 20px 36px rgba(5, 150, 105, 0.12);
+}
+
+.admin-toolbar-button-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ecfdf5;
+  color: #059669;
+  flex-shrink: 0;
+}
+
+.admin-toolbar-button-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.admin-toolbar-button-copy {
+  display: grid;
+  gap: 2px;
+}
+
+.admin-toolbar-button-label {
+  color: #064e3b;
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.admin-toolbar-button-caption {
+  color: #047857;
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.admin-filter-field {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-width: min(100%, 520px);
+  padding: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.96) 100%);
+  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.05);
+}
+
+.admin-applications-filter-chip {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid #dbe4ee;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #475569;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease;
+}
+
+.admin-applications-filter-chip:hover {
+  transform: translateY(-1px);
+  border-color: #cbd5e1;
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+.admin-applications-filter-chip:focus-visible {
+  outline: none;
+  border-color: #059669;
+  box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.12);
+}
+
+.admin-applications-filter-chip.is-active {
+  border-color: #10b981;
+  background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 12px 24px rgba(5, 150, 105, 0.18);
+  color: #ffffff;
+}
+
+.admin-applications-panel {
+  position: static;
+}
+
+.admin-applications-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.admin-application-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at top right, rgba(16, 185, 129, 0.06), transparent 26%),
+    linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.045);
+}
+
+.admin-application-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.admin-application-card-label,
+.admin-application-meta-label {
+  display: inline-flex;
+  margin: 0 0 4px;
+  color: #64748b;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.admin-application-card-header h3 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 0.92rem;
+  line-height: 1.2;
+}
+
+.admin-application-card-email {
+  display: inline-block;
+  margin-top: 4px;
+  color: #059669;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  word-break: break-word;
+}
+
+.admin-application-card-email:hover {
+  color: #047857;
+}
+
+.admin-application-card-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.admin-application-meta-item,
+.admin-application-card-section {
+  padding: 9px 10px;
+  border: 1px solid #edf2f7;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.admin-application-meta-item {
+  display: grid;
+  gap: 6px;
+}
+
+.admin-application-meta-item > span:last-child {
+  color: #0f172a;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.admin-timeline-cell {
+  display: grid;
+  gap: 6px;
+}
+
+.admin-interview-summary {
+  display: grid;
+  gap: 2px;
+  color: #334155;
+  font-size: 0.79rem;
+  line-height: 1.4;
+}
+
+.admin-start-summary {
+  display: grid;
+  gap: 2px;
+  padding-top: 6px;
+  border-top: 1px solid #edf2f7;
+  color: #0f172a;
+  font-size: 0.78rem;
+}
+
+.admin-start-label {
+  color: #166534;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.admin-interview-location,
+.admin-no-cv {
+  font-size: 0.76rem;
+  line-height: 1.4;
+}
+
+.admin-cv-actions {
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.admin-cv-link,
+.admin-cv-preview {
+  min-height: 28px;
+  padding: 0 9px;
+  border-radius: 8px;
+  font-size: 0.72rem;
+}
+
+.admin-application-actions {
+  gap: 5px;
+}
+
+.admin-table-button {
+  min-height: 30px;
+  padding: 0 9px;
+  font-size: 0.72rem;
+  border-radius: 8px;
+}
+
+@media (max-width: 720px) {
+  .admin-applications-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-toolbar-button {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .admin-filter-field {
+    min-width: 100%;
+    justify-content: flex-start;
+  }
+
+  .admin-applications-grid,
+  .admin-application-card-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-application-card-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

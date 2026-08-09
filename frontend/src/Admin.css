@@ -1,0 +1,1053 @@
+.admin-page {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: calc(var(--navbar-height) + 34px) var(--page-gutter) 52px;
+  color: var(--color-text);
+}
+
+.admin-hero {
+  margin-bottom: 22px;
+  padding: 30px;
+  border: 1px solid rgba(219, 228, 240, 0.9);
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at top right, rgba(29, 78, 216, 0.12), transparent 28%),
+    radial-gradient(circle at bottom left, rgba(59, 130, 246, 0.08), transparent 30%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.94) 100%);
+  box-shadow: var(--shadow-lg);
+}
+
+.admin-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 360px);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.admin-kicker {
+  margin: 0 0 10px;
+  color: var(--color-primary);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.admin-hero h1 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.05em;
+}
+
+.admin-subtitle {
+  max-width: 720px;
+  margin: 14px 0 0;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+
+.admin-hero-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.admin-hero-pill {
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid rgba(219, 228, 240, 0.9);
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--color-text-muted);
+  font-size: 0.84rem;
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-hero-aside {
+  padding: 22px;
+  border: 1px solid rgba(219, 228, 240, 0.9);
+  border-radius: 26px;
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-hero-aside-label,
+.admin-search-label {
+  color: var(--color-text-muted);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.admin-hero-aside strong {
+  font-size: 1.28rem;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.admin-hero-aside p,
+.admin-results-copy,
+.admin-count,
+.admin-empty p,
+.admin-schedule-subtitle {
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.admin-hero-actions,
+.admin-card-actions,
+.admin-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.admin-message {
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+.admin-message-success {
+  border-color: rgba(21, 128, 61, 0.16);
+  background: rgba(220, 252, 231, 0.92);
+  color: var(--color-success);
+}
+
+.admin-message-error {
+  border-color: rgba(185, 28, 28, 0.16);
+  background: rgba(254, 226, 226, 0.94);
+  color: var(--color-danger);
+}
+
+.admin-stat-grid {
+  margin-bottom: 18px;
+}
+
+.admin-workspace-card,
+.admin-panel,
+.admin-jobs-section {
+  padding: 24px;
+  border: 1px solid rgba(219, 228, 240, 0.9);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--shadow-md);
+}
+
+.admin-panel {
+  position: static;
+}
+
+.admin-workspace-header,
+.admin-jobs-header,
+.admin-application-card-header,
+.admin-cv-modal-header,
+.admin-applications-header,
+.admin-drawer-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.admin-workspace-header,
+.admin-jobs-header,
+.admin-drawer-header {
+  margin-bottom: 20px;
+}
+
+.admin-panel-label {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0 10px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--color-primary-tint);
+  color: var(--color-primary);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.admin-workspace-header h2,
+.admin-jobs-header h2,
+.admin-drawer-header h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.admin-toolbar-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.admin-search-field,
+.admin-filter-group,
+.admin-form,
+.admin-field {
+  display: grid;
+  gap: 10px;
+}
+
+.admin-form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.admin-field label {
+  color: var(--color-text);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.admin-field input,
+.admin-field textarea,
+.admin-status-select {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--color-text);
+  outline: none;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+  font-size: 0.94rem;
+}
+
+.admin-field textarea {
+  min-height: 120px;
+  padding: 14px;
+  resize: vertical;
+}
+
+.admin-field input::placeholder,
+.admin-field textarea::placeholder {
+  color: var(--color-text-soft);
+}
+
+.admin-field input:focus,
+.admin-field textarea:focus,
+.admin-status-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.12);
+  transform: translateY(-1px);
+}
+
+.admin-primary-button,
+.admin-secondary-button,
+.admin-danger-button,
+.admin-toolbar-button,
+.admin-cv-link,
+.admin-cv-preview,
+.admin-results-reset {
+  transition:
+    transform var(--transition-fast),
+    border-color var(--transition-fast),
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.admin-primary-button,
+.admin-secondary-button,
+.admin-danger-button {
+  min-height: 46px;
+  padding: 0 18px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.admin-primary-button {
+  background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-primary-strong) 100%);
+  color: #ffffff;
+  box-shadow: 0 14px 24px rgba(29, 78, 216, 0.2);
+}
+
+.admin-primary-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 30px rgba(29, 78, 216, 0.26);
+}
+
+.admin-secondary-button {
+  border-color: var(--color-border);
+  background: #ffffff;
+  color: var(--color-text);
+}
+
+.admin-secondary-button:hover {
+  transform: translateY(-1px);
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-muted);
+}
+
+.admin-danger-button {
+  border-color: rgba(185, 28, 28, 0.12);
+  background: rgba(254, 226, 226, 0.82);
+  color: var(--color-danger);
+}
+
+.admin-danger-button:hover {
+  transform: translateY(-1px);
+  background: rgba(254, 226, 226, 1);
+}
+
+.admin-primary-button:disabled,
+.admin-secondary-button:disabled,
+.admin-danger-button:disabled {
+  opacity: 0.66;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.admin-results-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.admin-results-reset {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-primary);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.admin-results-reset:hover,
+.admin-text-toggle:hover,
+.admin-application-card-email:hover {
+  color: var(--color-primary-strong);
+}
+
+.admin-empty,
+.admin-empty-state {
+  padding: 24px;
+  border: 1px dashed var(--color-border-strong);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.76);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-empty h3,
+.admin-empty-state h3 {
+  margin: 0 0 10px;
+  font-size: 1.3rem;
+}
+
+.admin-jobs-list {
+  display: grid;
+  gap: 16px;
+}
+
+.admin-job-skeleton {
+  padding: 22px;
+  border: 1px solid rgba(219, 228, 240, 0.88);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-job-skeleton-header {
+  width: 52%;
+  height: 24px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+}
+
+.admin-job-skeleton-meta,
+.admin-job-skeleton-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.admin-job-skeleton-meta {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 16px;
+}
+
+.admin-job-skeleton-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.admin-job-skeleton-meta span,
+.admin-job-skeleton-grid span {
+  height: 68px;
+  border-radius: 20px;
+}
+
+.admin-job-card {
+  display: grid;
+  gap: 18px;
+  padding: 24px;
+  border: 1px solid rgba(219, 228, 240, 0.92);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at top right, rgba(29, 78, 216, 0.08), transparent 24%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.96) 100%);
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-job-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.admin-job-heading {
+  display: grid;
+  gap: 10px;
+}
+
+.admin-job-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-job-title-row h3 {
+  margin: 0;
+  font-size: 1.38rem;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.admin-job-company {
+  margin: -2px 0 0;
+  color: var(--color-primary);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.admin-job-status,
+.admin-status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.admin-job-status-neutral {
+  border-color: rgba(148, 163, 184, 0.24);
+  background: rgba(241, 245, 249, 0.96);
+  color: #475569;
+}
+
+.admin-job-status-primary,
+.admin-status-badge.status-interview-scheduled {
+  border-color: rgba(29, 78, 216, 0.16);
+  background: rgba(239, 246, 255, 0.96);
+  color: var(--color-primary);
+}
+
+.admin-job-status-warning,
+.admin-status-badge.status-under-review,
+.admin-status-select.status-under-review {
+  border-color: rgba(180, 83, 9, 0.16);
+  background: rgba(254, 243, 199, 0.94);
+  color: var(--color-warning);
+}
+
+.admin-job-status-success,
+.admin-status-badge.status-accepted,
+.admin-status-select.status-accepted {
+  border-color: rgba(21, 128, 61, 0.16);
+  background: rgba(220, 252, 231, 0.92);
+  color: var(--color-success);
+}
+
+.admin-status-badge.status-rejected,
+.admin-status-select.status-rejected {
+  border-color: rgba(185, 28, 28, 0.14);
+  background: rgba(254, 226, 226, 0.94);
+  color: var(--color-danger);
+}
+
+.admin-job-description {
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.admin-review-toggle {
+  min-height: 44px;
+}
+
+.admin-job-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.admin-job-meta-item,
+.admin-job-health-card,
+.admin-application-meta-item,
+.admin-application-card-section {
+  padding: 16px;
+  border: 1px solid rgba(219, 228, 240, 0.86);
+  border-radius: 20px;
+  background: rgba(248, 250, 252, 0.82);
+}
+
+.admin-job-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-text);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.admin-job-meta-item-accent {
+  color: var(--color-primary);
+}
+
+.admin-job-meta-icon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: currentColor;
+  flex-shrink: 0;
+}
+
+.admin-job-meta-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.admin-job-health-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.admin-job-health-card span,
+.admin-application-card-label,
+.admin-application-meta-label,
+.admin-job-detail span,
+.admin-start-label,
+.admin-review-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--color-text-muted);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.admin-job-health-card strong {
+  display: block;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.admin-job-content-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.admin-job-detail {
+  padding: 16px;
+  border: 1px solid rgba(219, 228, 240, 0.88);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.84);
+}
+
+.admin-job-detail p,
+.admin-expandable-text {
+  margin: 0;
+  color: var(--color-text);
+  line-height: 1.65;
+}
+
+.admin-text-toggle {
+  margin-top: 8px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-primary);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.admin-drawer-backdrop,
+.admin-cv-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-end;
+  padding: 18px;
+  background: rgba(15, 23, 42, 0.42);
+}
+
+.admin-drawer,
+.admin-cv-modal-content {
+  width: min(560px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 24px;
+  border: 1px solid rgba(219, 228, 240, 0.9);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 28px 60px rgba(15, 23, 42, 0.18);
+}
+
+.admin-cv-modal {
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-cv-modal-content {
+  width: min(960px, 100%);
+}
+
+.admin-drawer-form,
+.admin-edit-form {
+  gap: 14px;
+}
+
+.admin-drawer-close,
+.admin-cv-close {
+  min-height: 40px;
+}
+
+.admin-drawer-actions {
+  margin-top: 6px;
+}
+
+.admin-applications-page {
+  max-width: 1320px;
+}
+
+.admin-applications-hero {
+  text-align: left;
+}
+
+.admin-applications-toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.admin-toolbar-button {
+  min-height: 52px;
+  padding: 10px 16px 10px 12px;
+  border: 1px solid rgba(29, 78, 216, 0.14);
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-toolbar-button:hover,
+.admin-cv-link:hover,
+.admin-cv-preview:hover {
+  transform: translateY(-1px);
+}
+
+.admin-toolbar-button-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary-tint);
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.admin-toolbar-button-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.admin-toolbar-button-copy {
+  display: grid;
+  gap: 2px;
+}
+
+.admin-toolbar-button-label {
+  color: var(--color-text);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.admin-toolbar-button-caption {
+  color: var(--color-text-muted);
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+.admin-filter-field {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-width: min(100%, 520px);
+  padding: 12px;
+  border: 1px solid rgba(219, 228, 240, 0.88);
+  border-radius: 18px;
+  justify-content: flex-end;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-applications-filter-chip {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: #ffffff;
+  color: var(--color-text-muted);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.admin-applications-filter-chip:hover {
+  transform: translateY(-1px);
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+}
+
+.admin-applications-filter-chip.is-active {
+  border-color: rgba(29, 78, 216, 0.18);
+  background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-primary-strong) 100%);
+  box-shadow: 0 14px 24px rgba(29, 78, 216, 0.2);
+  color: #ffffff;
+}
+
+.admin-applications-panel {
+  position: static;
+}
+
+.admin-applications-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.admin-application-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid rgba(219, 228, 240, 0.9);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at top right, rgba(29, 78, 216, 0.06), transparent 26%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.96) 100%);
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-application-card-header h3 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.admin-application-card-email {
+  display: inline-block;
+  margin-top: 4px;
+  color: var(--color-primary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.admin-application-card-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.admin-application-meta-item,
+.admin-application-card-section {
+  display: grid;
+  gap: 6px;
+}
+
+.admin-application-meta-item > span:last-child {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.admin-timeline-cell,
+.admin-interview-summary,
+.admin-start-summary,
+.admin-interview-summary,
+.admin-cv-actions,
+.admin-application-actions,
+.admin-interview-summary,
+.admin-admin-note {
+  display: grid;
+  gap: 6px;
+}
+
+.admin-interview-summary,
+.admin-start-summary,
+.admin-interview-location,
+.admin-no-cv {
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.admin-start-summary {
+  padding-top: 8px;
+  border-top: 1px solid rgba(219, 228, 240, 0.88);
+  color: var(--color-text);
+}
+
+.admin-review-label {
+  margin-bottom: 0;
+}
+
+.admin-review-count {
+  margin: 6px 0 0;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.admin-cv-actions,
+.admin-application-actions {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.admin-cv-link,
+.admin-cv-preview,
+.admin-table-button {
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.admin-cv-link {
+  border: none;
+  background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-primary-strong) 100%);
+  color: #ffffff;
+  box-shadow: 0 10px 18px rgba(29, 78, 216, 0.18);
+}
+
+.admin-cv-preview {
+  border: 1px solid rgba(29, 78, 216, 0.14);
+  background: rgba(239, 246, 255, 0.92);
+  color: var(--color-primary);
+}
+
+.admin-table-button {
+  min-height: 40px;
+}
+
+.admin-schedule-modal-content {
+  width: min(640px, 100%);
+}
+
+.admin-empty-applications {
+  margin-top: 14px;
+}
+
+.admin-cv-modal-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.admin-cv-frame {
+  width: 100%;
+  height: 72vh;
+  border: 1px solid rgba(219, 228, 240, 0.88);
+  border-radius: 16px;
+}
+
+.admin-application-table-wrap {
+  margin-top: 14px;
+  overflow-x: auto;
+  border: 1px solid rgba(219, 228, 240, 0.9);
+  border-radius: 20px;
+  background: #ffffff;
+}
+
+.admin-application-table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+}
+
+.admin-application-table th,
+.admin-application-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.88);
+  text-align: left;
+  vertical-align: middle;
+  font-size: 0.88rem;
+}
+
+.admin-application-table th {
+  background: rgba(248, 250, 252, 0.96);
+  color: var(--color-text-muted);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.admin-application-table tbody tr:hover {
+  background: rgba(248, 250, 252, 0.64);
+}
+
+.admin-application-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+@media (max-width: 1080px) {
+  .admin-hero-grid,
+  .admin-toolbar-grid,
+  .admin-job-content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-job-meta,
+  .admin-job-health-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-applications-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .admin-applications-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-toolbar-button,
+  .admin-filter-field {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .admin-application-card-meta {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-page {
+    padding-top: calc(var(--navbar-height) + 26px);
+    padding-bottom: 34px;
+  }
+
+  .admin-hero,
+  .admin-workspace-card,
+  .admin-panel,
+  .admin-jobs-section,
+  .admin-job-card,
+  .admin-drawer,
+  .admin-cv-modal-content {
+    padding: 20px;
+    border-radius: 24px;
+  }
+
+  .admin-workspace-header,
+  .admin-jobs-header,
+  .admin-job-card-header,
+  .admin-drawer-header,
+  .admin-card-actions,
+  .admin-empty-actions,
+  .admin-results-bar,
+  .admin-applications-header,
+  .admin-cv-modal-header,
+  .admin-application-card-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-form-row,
+  .admin-job-meta,
+  .admin-job-health-grid,
+  .admin-job-skeleton-meta,
+  .admin-job-skeleton-grid,
+  .admin-application-card-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-drawer-backdrop,
+  .admin-cv-modal {
+    padding: 12px;
+  }
+
+  .admin-primary-button,
+  .admin-secondary-button,
+  .admin-danger-button,
+  .admin-review-toggle,
+  .admin-table-button {
+    width: 100%;
+  }
+}
