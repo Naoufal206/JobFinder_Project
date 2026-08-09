@@ -8,7 +8,8 @@ JobFinder is a full-stack web application built to simulate a real-world recruit
 
 ## 🚀 Live Project
 
-**Frontend / Demo:** Add your deployed JobFinder URL here when available.
+
+[JobFinder Live Demo](https://jobfinder-git-main-naoufal15.vercel.app/)
 
 **GitHub Repository:**  
 https://github.com/Naoufal206/JobFinder_Project
