@@ -1,15 +1,16 @@
-
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "./api";
+import axios from "axios";
 import "./Jobs.css";
+
+const API_URL = (process.env.REACT_APP_API_URL || "").replace(/\/$/, "");
 
 function IconLocation() {
   return (
     <svg
       viewBox="0 0 24 24"
-      width="16"
-      height="16"
+      width="18"
+      height="18"
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
@@ -17,7 +18,7 @@ function IconLocation() {
       strokeLinejoin="round"
       aria-hidden="true"
     >
-      <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" />
+      <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
       <circle cx="12" cy="10" r="2.5" />
     </svg>
   );
@@ -27,8 +28,8 @@ function IconSalary() {
   return (
     <svg
       viewBox="0 0 24 24"
-      width="16"
-      height="16"
+      width="18"
+      height="18"
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
@@ -36,9 +37,8 @@ function IconSalary() {
       strokeLinejoin="round"
       aria-hidden="true"
     >
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 7v10" />
-      <path d="M15 9.5c0-1.1-1.3-2-3-2s-3 .9-3 2 1.3 2 3 2 3 .9 3 2-1.3 2-3 2-3-.9-3-2" />
+      <path d="M12 1v22" />
+      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H7" />
     </svg>
   );
 }
@@ -49,6 +49,11 @@ function formatPostedDate(value) {
   }
 
   const postedAt = new Date(value);
+
+  if (Number.isNaN(postedAt.getTime())) {
+    return "Recently posted";
+  }
+
   const now = new Date();
 
   const diffInDays = Math.max(
@@ -114,17 +119,23 @@ function Jobs() {
       try {
         setLoading(true);
 
-        const res = await api.get("/api/jobs");
+        const url = API_URL
+          ? `${API_URL}/api/jobs`
+          : "/api/jobs";
 
-        console.log("Jobs API response:", res.data);
+        const response = await axios.get(url);
 
-        const jobsData = Array.isArray(res.data)
-          ? res.data
-          : res.data?.data || [];
+        console.log("Jobs API response:", response.data);
+
+        const jobsData = Array.isArray(response.data)
+          ? response.data
+          : Array.isArray(response.data?.data)
+          ? response.data.data
+          : [];
 
         setJobs(jobsData);
-      } catch (err) {
-        console.error("Error fetching jobs:", err);
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
         setJobs([]);
       } finally {
         setLoading(false);
@@ -137,7 +148,9 @@ function Jobs() {
   const quickFilters = useMemo(() => {
     const locations = [
       ...new Set(
-        jobs.map((job) => job.location?.trim()).filter(Boolean)
+        jobs
+          .map((job) => job.location?.trim())
+          .filter(Boolean)
       ),
     ]
       .slice(0, 3)
@@ -193,14 +206,18 @@ function Jobs() {
     });
   }, [activeFilter, jobs, searchTerm]);
 
-  const jobsWithSalary = jobs.filter((job) => job.salary).length;
+  const jobsWithSalary = jobs.filter(
+    (job) => job.salary
+  ).length;
 
   const uniqueLocations = new Set(
     jobs.map((job) => job.location).filter(Boolean)
   ).size;
 
   const handleApply = (jobId) => {
-    const user = JSON.parse(localStorage.getItem("user") || "null");
+    const user = JSON.parse(
+      localStorage.getItem("user") || "null"
+    );
 
     if (user?.role === "applicant") {
       navigate(`/apply/${jobId}`);
@@ -214,19 +231,27 @@ function Jobs() {
     );
   };
 
-  const skeletonItems = Array.from({ length: 6 }, (_, index) => index);
+  const skeletonItems = Array.from(
+    { length: 6 },
+    (_, index) => index
+  );
 
   return (
     <div className="jobs-page">
       <section className="jobs-hero">
         <div className="jobs-hero-copy">
-          <p className="jobs-eyebrow">Career opportunities</p>
+          <p className="jobs-eyebrow">
+            Career opportunities
+          </p>
 
-          <h1>Find roles that fit your skills and career goals</h1>
+          <h1>
+            Find roles that fit your skills and career goals
+          </h1>
 
           <p>
-            Browse openings, narrow them down with quick filters, and move
-            from discovery to application without friction.
+            Browse openings, narrow them down with quick
+            filters, and move from discovery to application
+            without friction.
           </p>
         </div>
 
@@ -237,7 +262,9 @@ function Jobs() {
               className="jobs-search-input"
               placeholder="Search by title, skill, location, or keyword"
               value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
+              onChange={(event) =>
+                setSearchInput(event.target.value)
+              }
             />
 
             {searchInput && (
@@ -258,9 +285,13 @@ function Jobs() {
                 key={filter.id}
                 type="button"
                 className={`ui-filter-chip${
-                  activeFilter === filter.id ? " is-active" : ""
+                  activeFilter === filter.id
+                    ? " is-active"
+                    : ""
                 }`}
-                onClick={() => setActiveFilter(filter.id)}
+                onClick={() =>
+                  setActiveFilter(filter.id)
+                }
               >
                 {filter.label}
               </button>
@@ -269,32 +300,55 @@ function Jobs() {
 
           <p className="jobs-results-count">
             {filteredJobs.length}{" "}
-            {filteredJobs.length === 1 ? "role" : "roles"} ready to review
-            {searchTerm ? ` for "${searchInput.trim()}"` : ""}
+            {filteredJobs.length === 1
+              ? "role"
+              : "roles"}{" "}
+            ready to review
+            {searchTerm
+              ? ` for "${searchInput.trim()}"`
+              : ""}
           </p>
         </div>
       </section>
 
       <section className="ui-stat-grid jobs-stat-grid">
         <div className="ui-stat-card">
-          <span className="ui-stat-label">Open roles</span>
-          <span className="ui-stat-value">{jobs.length}</span>
+          <span className="ui-stat-label">
+            Open roles
+          </span>
+
+          <span className="ui-stat-value">
+            {jobs.length}
+          </span>
+
           <span className="ui-stat-note">
             Across the current hiring pipeline
           </span>
         </div>
 
         <div className="ui-stat-card">
-          <span className="ui-stat-label">Locations</span>
-          <span className="ui-stat-value">{uniqueLocations || 1}</span>
+          <span className="ui-stat-label">
+            Locations
+          </span>
+
+          <span className="ui-stat-value">
+            {uniqueLocations || 1}
+          </span>
+
           <span className="ui-stat-note">
             Flexible for remote and on-site searches
           </span>
         </div>
 
         <div className="ui-stat-card">
-          <span className="ui-stat-label">Salary listed</span>
-          <span className="ui-stat-value">{jobsWithSalary}</span>
+          <span className="ui-stat-label">
+            Salary listed
+          </span>
+
+          <span className="ui-stat-value">
+            {jobsWithSalary}
+          </span>
+
           <span className="ui-stat-note">
             Roles with compensation details visible
           </span>
@@ -330,8 +384,9 @@ function Jobs() {
             <h2>No roles published yet</h2>
 
             <p>
-              The hiring team has not published any openings yet. Check
-              back soon for new opportunities.
+              The hiring team has not published any
+              openings yet. Check back soon for new
+              opportunities.
             </p>
           </div>
         ) : filteredJobs.length === 0 ? (
@@ -339,8 +394,8 @@ function Jobs() {
             <h2>No roles match this search</h2>
 
             <p>
-              Try another keyword or remove the active filter to see more
-              opportunities.
+              Try another keyword or remove the active
+              filter to see more opportunities.
             </p>
 
             <button
@@ -356,8 +411,11 @@ function Jobs() {
           </div>
         ) : (
           filteredJobs.map((job) => {
-            const isExpanded = expandedJobId === job.id;
-            const highlights = getJobHighlights(job);
+            const isExpanded =
+              expandedJobId === job.id;
+
+            const highlights =
+              getJobHighlights(job);
 
             return (
               <article
@@ -368,7 +426,9 @@ function Jobs() {
               >
                 <div className="job-card-header">
                   <div className="job-card-header-copy">
-                    <p className="job-card-label">Open role</p>
+                    <p className="job-card-label">
+                      Open role
+                    </p>
 
                     <h3>{job.title}</h3>
 
@@ -378,13 +438,16 @@ function Jobs() {
                       </span>
 
                       <p className="job-card-company">
-                        {job.company || "Company not specified"}
+                        {job.company ||
+                          "Company not specified"}
                       </p>
                     </div>
                   </div>
 
                   <span className="job-card-posted">
-                    {formatPostedDate(job.created_at)}
+                    {formatPostedDate(
+                      job.created_at
+                    )}
                   </span>
                 </div>
 
@@ -395,7 +458,8 @@ function Jobs() {
                     </span>
 
                     <span>
-                      {job.location || "Location not specified"}
+                      {job.location ||
+                        "Location not specified"}
                     </span>
                   </span>
 
@@ -405,26 +469,34 @@ function Jobs() {
                     </span>
 
                     <span>
-                      {job.salary || "Salary not specified"}
+                      {job.salary ||
+                        "Salary not specified"}
                     </span>
                   </span>
                 </div>
 
                 <p className="job-card-description">
-                  {job.description?.length > 165 && !isExpanded
-                    ? `${job.description.slice(0, 165)}...`
-                    : job.description || "No description available."}
+                  {job.description?.length > 165 &&
+                  !isExpanded
+                    ? `${job.description.slice(
+                        0,
+                        165
+                      )}...`
+                    : job.description ||
+                      "No description available."}
                 </p>
 
                 <div className="job-card-tags">
-                  {highlights.map((highlight) => (
-                    <span
-                      key={highlight}
-                      className="job-card-tag"
-                    >
-                      {highlight}
-                    </span>
-                  ))}
+                  {highlights.map(
+                    (highlight, index) => (
+                      <span
+                        key={`${highlight}-${index}`}
+                        className="job-card-tag"
+                      >
+                        {highlight}
+                      </span>
+                    )
+                  )}
                 </div>
 
                 {isExpanded && (
@@ -453,7 +525,9 @@ function Jobs() {
                   <button
                     type="button"
                     className="job-card-apply"
-                    onClick={() => handleApply(job.id)}
+                    onClick={() =>
+                      handleApply(job.id)
+                    }
                   >
                     Apply now
                   </button>
@@ -463,11 +537,15 @@ function Jobs() {
                     className="job-card-secondary"
                     onClick={() =>
                       setExpandedJobId(
-                        isExpanded ? null : job.id
+                        isExpanded
+                          ? null
+                          : job.id
                       )
                     }
                   >
-                    {isExpanded ? "Hide details" : "View details"}
+                    {isExpanded
+                      ? "Hide details"
+                      : "View details"}
                   </button>
                 </div>
               </article>
@@ -480,4 +558,3 @@ function Jobs() {
 }
 
 export default Jobs;
-
